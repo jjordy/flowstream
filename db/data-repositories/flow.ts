@@ -1,6 +1,6 @@
 import { DB, Flow } from "kysely-codegen";
 import { baseOperations } from "../base";
-import { jsonArrayFrom } from "kysely/helpers/sqlite";
+import { jsonArrayFrom } from "kysely/helpers/postgres";
 import { ExpressionBuilder } from "kysely";
 import { db } from "../";
 
