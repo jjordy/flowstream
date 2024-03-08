@@ -8,21 +8,26 @@ export async function up(db: Kysely<DB>): Promise<void> {
   await db.schema
     .createTable("fact")
     .addColumn("id", "serial", (col) => col.primaryKey())
-    .addColumn("fact_id", "varchar", (col) => col.notNull())
+    .addColumn("fact_id", "uuid", (col) =>
+      col
+        .defaultTo(sql`gen_random_uuid()`)
+        .notNull()
+        .unique(),
+    )
     .addColumn("question_id", "integer", (col) =>
-      col.references("question.id").notNull()
+      col.references("question.id").notNull(),
     )
     .addColumn("response_id", "integer", (col) =>
-      col.references("response.id").onDelete("cascade").notNull()
+      col.references("response.id").onDelete("cascade").notNull(),
     )
     .addColumn("owner_id", "integer", (col) =>
-      col.references("user.id").onDelete("cascade").notNull()
+      col.references("user.id").onDelete("cascade").notNull(),
     )
     .addColumn("created_at", "timestamp", (col) =>
-      col.defaultTo(sql`now()`).notNull()
+      col.defaultTo(sql`now()`).notNull(),
     )
     .addColumn("updated_at", "timestamp", (col) =>
-      col.defaultTo(sql`now()`).notNull()
+      col.defaultTo(sql`now()`).notNull(),
     )
     .execute();
 
@@ -46,5 +51,8 @@ export async function up(db: Kysely<DB>): Promise<void> {
 }
 
 export async function down(db: Kysely<DB>): Promise<void> {
+  await db.schema.dropIndex("fact_owner_id_index").execute();
+  await db.schema.dropIndex("fact_question_id_index").execute();
+  await db.schema.dropIndex("fact_response_id_index").execute();
   await db.schema.dropTable("fact").execute();
 }

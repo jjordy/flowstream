@@ -2,7 +2,7 @@ import "dotenv/config";
 import { program } from "commander";
 import { createDataRepository } from "../db/generators/data-repository";
 import { createMigration } from "../db/generators/migrations";
-import { migrateToLatest } from "../db/migrate";
+import { migrateToLatest, migrateDown } from "../db/migrate";
 import { seedDB } from "../db/seed-db";
 
 program
@@ -16,6 +16,7 @@ program
   .action((name) => createDataRepository(name));
 
 program.command("migrate").action(migrateToLatest);
+program.command("migrate-down").action(migrateDown);
 
 program.command("seed-db").action(seedDB);
 

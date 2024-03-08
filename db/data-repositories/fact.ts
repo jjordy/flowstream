@@ -2,7 +2,7 @@ import { Fact } from "kysely-codegen";
 import { baseOperations } from "../base";
 
 export const PUBLIC_FIELDS = [
-  "fact_id as id",
+  "fact_id",
   "question_id",
   "response_id",
   "created_at",
@@ -11,7 +11,7 @@ export const PUBLIC_FIELDS = [
 
 const { findById, updateItem, createItem, deleteItem } = baseOperations<Fact>(
   "fact",
-  PUBLIC_FIELDS
+  PUBLIC_FIELDS,
 );
 
 export const fact = {
