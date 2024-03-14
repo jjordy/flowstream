@@ -5,10 +5,6 @@ export async function up(db: Kysely<DB>): Promise<void> {
   /**
    * User Table
    **/
-  await db.schema
-    .createType("user_account_type")
-    .asEnum(["user", "admin"])
-    .execute();
 
   await db.schema
     .createTable("user")
@@ -21,9 +17,6 @@ export async function up(db: Kysely<DB>): Promise<void> {
     )
     .addColumn("email", "varchar", (col) => col.notNull().unique())
     .addColumn("password", "varchar", (col) => col.notNull())
-    .addColumn("account_type", sql`user_account_type`, (col) =>
-      col.defaultTo("user"),
-    )
     .addColumn("created_at", "timestamp", (col) =>
       col.defaultTo(sql`now()`).notNull(),
     )

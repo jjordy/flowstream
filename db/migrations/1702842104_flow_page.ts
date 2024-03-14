@@ -17,6 +17,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .addColumn("page_id", "integer", (col) =>
       col.references("page.id").notNull(),
     )
+    .addColumn("position", "integer", (col) => col.notNull())
     .addColumn("created_at", "timestamp", (col) =>
       col.defaultTo(sql`now()`).notNull(),
     )

@@ -1,17 +1,18 @@
-import { TargetingRule } from "kysely-codegen";
+import { DB, TargetingRule } from "kysely-codegen";
 import { baseOperations } from "../base";
+import { ExpressionBuilder } from "kysely";
+import { jsonArrayFrom } from "kysely/helpers/postgres";
 
 export const PUBLIC_FIELDS = [
   "targeting_rule_id",
   "name",
   "left_hand_expression",
-  "left_hand_expression_type",
-  "comparison_type",
+  "expression_type",
+  "operator",
   "right_hand_expression",
-  "right_hand_expression_type",
   "created_at",
   "updated_at",
-];
+] as const;
 
 const { findById, updateItem, createItem, deleteItem } =
   baseOperations<TargetingRule>("targeting_rule", PUBLIC_FIELDS);

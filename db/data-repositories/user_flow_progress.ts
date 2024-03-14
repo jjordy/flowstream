@@ -16,8 +16,8 @@ const { findById, updateItem, createItem, deleteItem } =
   baseOperations<UserFlowProgress>("user_flow_progress", PUBLIC_FIELDS);
 
 export const actions = {
-  findUserFlowProgressById: findById,
-  updateUserFlowProgress: updateItem,
-  createUserFlowProgress: createItem,
-  deleteUserFlowProgress: deleteItem,
+  find: findById,
+  update: updateItem,
+  create: createItem,
+  delete: deleteItem,
 };

@@ -8,7 +8,6 @@ export const PUBLIC_FIELDS = [
   "id",
   "user_id",
   "email",
-  "account_type",
   "created_at",
   "updated_at",
 ] as const;

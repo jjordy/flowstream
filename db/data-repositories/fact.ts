@@ -14,7 +14,7 @@ const { findById, updateItem, createItem, deleteItem } = baseOperations<Fact>(
   PUBLIC_FIELDS,
 );
 
-export const fact = {
+export const actions = {
   findById: findById,
   update: updateItem,
   create: createItem,

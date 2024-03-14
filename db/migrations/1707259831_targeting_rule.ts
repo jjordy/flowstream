@@ -19,7 +19,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
 
   await db.schema
     .createType("targeting_rule_expression_type")
-    .asEnum(["string", "integer", "decimal", "reference"])
+    .asEnum(["string", "integer", "decimal"])
     .execute();
 
   await db.schema

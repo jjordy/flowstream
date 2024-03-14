@@ -4,7 +4,7 @@ import { DB } from "kysely-codegen";
 
 export const baseOperations = <Item>(
   tableName: keyof DB,
-  PUBLIC_FIELDS: readonly SelectExpression<DB, keyof DB>[]
+  PUBLIC_FIELDS: readonly SelectExpression<DB, keyof DB>[],
 ) => {
   return {
     findById: async (id: string) =>
@@ -13,11 +13,11 @@ export const baseOperations = <Item>(
         .select(PUBLIC_FIELDS)
         .where(`${tableName}_id`, "=", id)
         .executeTakeFirst(),
-    updateItem: async (id: number, updateWith: Updateable<Item>) =>
+    updateItem: async (id: string, updateWith: Updateable<Item>) =>
       await db
         .updateTable(tableName)
         .set(updateWith)
-        .where("id", "=", id)
+        .where(`${tableName}_id`, "=", id)
         .returning(PUBLIC_FIELDS)
         .executeTakeFirstOrThrow(),
     createItem: async (item: Insertable<Item>) =>
@@ -26,7 +26,10 @@ export const baseOperations = <Item>(
         .values(item)
         .returning(PUBLIC_FIELDS)
         .executeTakeFirstOrThrow(),
-    deleteItem: async (id: number) =>
-      await db.deleteFrom(tableName).where("id", "=", id).execute(),
+    deleteItem: async (id: string) =>
+      await db
+        .deleteFrom(tableName)
+        .where(`${tableName}_id`, "=", id)
+        .execute(),
   };
 };

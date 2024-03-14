@@ -4,6 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
+    "css": "npx tailwindcss -i ./app/css/app.css -o ./public/app.css --watch",
     "db:codegen": "kysely-codegen",
     "db:init": "npm run db:migrate && npm run db:codegen && npm run db:seed",
     "db:migrate": "tsx ./bin/index.ts migrate",
@@ -11,27 +12,37 @@
     "db:create:migration": "tsx ./bin/index.ts create-migration",
     "db:create:data-repository": "tsx ./bin/index.ts create-data-repository",
     "db:seed": "tsx ./bin/index.ts seed-db",
+    "dev": "concurrently --kill-others \"tsx watch app/index.tsx\" \"npm run css\"",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "dotenv": "^16.4.1",
-    "kysely": "^0.27.2",
-    "kysely-codegen": "^0.11.0",
-    "nanoid": "^5.0.5",
+    "@hono/node-server": "^1.8.2",
+    "clsx": "^2.1.0",
+    "date-fns": "^3.4.0",
+    "dotenv": "^16.4.5",
+    "hono": "^4.0.10",
+    "kysely": "^0.27.3",
+    "kysely-codegen": "^0.13.1",
+    "lodash": "^4.17.21",
+    "nanoid": "^5.0.6",
     "pg": "^8.11.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/pg": "^8.11.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@types/lodash": "^4.14.202",
+    "@types/pg": "^8.11.2",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
     "commander": "^12.0.0",
-    "eslint": "^8.38.0",
-    "eslint-config-prettier": "^9.0.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.28.1",
-    "tsx": "4.7.0",
-    "typescript": "^5.1.6"
+    "eslint-plugin-import": "^2.29.1",
+    "tailwindcss": "^3.4.1",
+    "tsx": "4.7.1",
+    "typed-htmx": "^0.2.1",
+    "typescript": "^5.4.2"
   },
   "engines": {
     "node": ">=18.0.0"

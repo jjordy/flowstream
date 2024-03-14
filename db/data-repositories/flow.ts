@@ -3,11 +3,14 @@ import { baseOperations } from "../base";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
 import { ExpressionBuilder } from "kysely";
 import { db } from "../";
+import { user } from "./user";
 
 export const PUBLIC_FIELDS = [
   "id",
   "flow_id",
-  "name",
+  "title",
+  "description",
+  "slug",
   "created_at",
   "updated_at",
 ] as const;
@@ -20,7 +23,7 @@ function withPages(eb: ExpressionBuilder<DB, "flow">) {
     eb
       .selectFrom("flow_page")
       .innerJoin("page", "page.id", "flow_page.page_id")
-      .select("page.content")
+      .select(["page.page_id", "page.content"])
       .whereRef("flow_page.flow_id", "=", "flow.id"),
   ).as("pages");
 }
@@ -33,10 +36,9 @@ function withTargetingRules(eb: ExpressionBuilder<DB, "flow">) {
         "targeting_rule_id",
         "name",
         "left_hand_expression",
-        "left_hand_expression_type",
-        "comparison_type",
+        "expression_type",
+        "operator",
         "right_hand_expression",
-        "right_hand_expression_type",
       ])
       .whereRef("targeting_rule.flow_id", "=", "flow.flow_id"),
   ).as("rules");
@@ -44,18 +46,27 @@ function withTargetingRules(eb: ExpressionBuilder<DB, "flow">) {
 
 export const flow = {
   findFlowById: findById,
-  findFlowWithPages: async (id: number) => {
+  findFlowWithPages: async (id: string) => {
     return await db
       .selectFrom("flow")
       .select(PUBLIC_FIELDS)
       .select((eb) => [withPages(eb)])
-      .where("flow.id", "=", id)
-      .execute();
+      .where("flow.flow_id", "=", id)
+      .executeTakeFirst();
   },
-  findFlowsWithTargetingRules: async () => {
+  findFlowsWithTargetingRules: async (userId: string) => {
+    const u = await user.findById(userId);
     return await db
       .selectFrom("flow")
-      .select(PUBLIC_FIELDS)
+      .select([
+        "flow.id",
+        "flow.flow_id",
+        "flow.title",
+        "flow.description",
+        "flow.slug",
+        "flow.created_at",
+        "flow.updated_at",
+      ])
       .select((eb) => [withTargetingRules(eb)])
       .execute();
   },

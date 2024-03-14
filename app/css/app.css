@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+label {
+  @apply block font-bold;
+}
+
+.input {
+  @apply border-2 border-slate-500 p-2 w-full  rounded-lg focus:ring-2 focus:outline-sky-400;
+}
+
+.button {
+  @apply w-full px-4 py-3 bg-sky-400 text-white rounded shadow-xl font-semibold flex items-center justify-center hover:bg-sky-500 hover:text-slate-600;
+}
+
+.link {
+  @apply my-1 underline font-semibold text-indigo-600;
+}
+
+.heading {
+  @apply text-4xl tracking-tight leading-none text-slate-600 font-semibold mb-2;
+}
