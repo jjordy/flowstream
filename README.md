@@ -9,3 +9,12 @@ DB_USER=flowstream
 DB_PASSWORD=admin
 DB_HOST=localhost
 DB_PORT=5432`
+
+## PGAdmin
+
+Running on port `15432`
+
+`username` `test@test.com`
+`password` `password`
+
+### Relevant Docker commands to interact with database

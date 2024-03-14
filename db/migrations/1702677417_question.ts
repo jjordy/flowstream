@@ -8,13 +8,21 @@ export async function up(db: Kysely<DB>): Promise<void> {
   await db.schema
     .createTable("question")
     .addColumn("id", "serial", (col) => col.primaryKey())
-    .addColumn("question_id", "varchar", (col) => col.notNull())
-    .addColumn("content", "text", (col) => col.notNull())
+    .addColumn("question_id", "uuid", (col) =>
+      col
+        .defaultTo(sql`gen_random_uuid()`)
+        .notNull()
+        .unique(),
+    )
+    .addColumn("key", "varchar", (col) => col.notNull())
+    .addColumn("title", "varchar", (col) => col.notNull())
+    .addColumn("description", "text", (col) => col.notNull())
+    .addColumn("content", "jsonb", (col) => col.notNull())
     .addColumn("created_at", "timestamp", (col) =>
-      col.defaultTo(sql`now()`).notNull()
+      col.defaultTo(sql`now()`).notNull(),
     )
     .addColumn("updated_at", "timestamp", (col) =>
-      col.defaultTo(sql`now()`).notNull()
+      col.defaultTo(sql`now()`).notNull(),
     )
     .execute();
 }

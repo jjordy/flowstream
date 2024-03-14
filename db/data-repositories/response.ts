@@ -13,8 +13,8 @@ const { findById, updateItem, createItem, deleteItem } =
   baseOperations<Response>("response", PUBLIC_FIELDS);
 
 export const actions = {
-  findPageById: findById,
-  updatePage: updateItem,
-  createPage: createItem,
-  deletePage: deleteItem,
+  findById: findById,
+  update: updateItem,
+  create: createItem,
+  delete: deleteItem,
 };

@@ -6,6 +6,7 @@ export const PUBLIC_FIELDS = [
   "flow_page_id",
   "flow_id",
   "page_id",
+  "position",
   "created_at",
   "updated_at",
 ] as const;

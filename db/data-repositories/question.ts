@@ -5,6 +5,8 @@ const PUBLIC_FIELDS = [
   "id",
   "question_id",
   "content",
+  "title",
+  "description",
   "created_at",
   "updated_at",
 ] as const;

@@ -1,5 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1).replace("_", "");
@@ -9,23 +12,21 @@ export async function createDataRepository(name = "thing") {
   const FILE_PATH = path.join(
     __dirname,
     "..",
-    "..",
-    "..",
     "data-repositories",
-    `${name}.ts`
+    `${name}.ts`,
   );
 
   const fileContent = `import { ${capitalizeFirstLetter(
-    name
+    name,
   )} } from "kysely-codegen";
-  import { baseOperations } from "../lib/db";
+  import { baseOperations } from "../base";
 
   export const PUBLIC_FIELDS = [
 
   ];
 
   const { findById, updateItem, createItem, deleteItem } = baseOperations<${capitalizeFirstLetter(
-    name
+    name,
   )}>(
         "${name}",
     PUBLIC_FIELDS,

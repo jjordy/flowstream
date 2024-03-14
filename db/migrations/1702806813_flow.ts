@@ -5,13 +5,20 @@ export async function up(db: Kysely<DB>): Promise<void> {
   await db.schema
     .createTable("flow")
     .addColumn("id", "serial", (col) => col.primaryKey())
-    .addColumn("flow_id", "varchar", (col) => col.notNull())
-    .addColumn("name", "varchar", (col) => col.notNull())
+    .addColumn("flow_id", "uuid", (col) =>
+      col
+        .defaultTo(sql`gen_random_uuid()`)
+        .notNull()
+        .unique(),
+    )
+    .addColumn("title", "varchar", (col) => col.notNull())
+    .addColumn("description", "text", (col) => col.notNull())
+    .addColumn("slug", "varchar")
     .addColumn("created_at", "timestamp", (col) =>
-      col.defaultTo(sql`now()`).notNull()
+      col.defaultTo(sql`now()`).notNull(),
     )
     .addColumn("updated_at", "timestamp", (col) =>
-      col.defaultTo(sql`now()`).notNull()
+      col.defaultTo(sql`now()`).notNull(),
     )
     .execute();
 }
